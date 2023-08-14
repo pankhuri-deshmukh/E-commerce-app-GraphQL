@@ -4,6 +4,13 @@ import { schema } from "./schema";
 import cors from "cors";
 import { DataSource } from "typeorm";
 import {Products} from './entities/Products'
+import { Password_Reset } from "./entities/Password_Reset";
+import { Review } from "./entities/Review";
+import { Users } from "./entities/Users";
+import { Orders } from "./entities/Orders";
+import { OrderItem } from "./entities/Order_Items";
+import { Cart } from "./entities/Cart";
+import { Cart_Items } from "./entities/Cart_Items";
 
 const main = async () => {
   const connectDB = await new DataSource({
@@ -13,7 +20,7 @@ const main = async () => {
     password: "bugzy",
     logging: true,
     synchronize: false,
-    entities: [Products],
+    entities: [Products, Password_Reset, Review, Users, Orders, OrderItem, Cart, Cart_Items],
   });
 
   connectDB.initialize()
