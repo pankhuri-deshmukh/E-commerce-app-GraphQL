@@ -1,5 +1,6 @@
-import { GraphQLFloat, GraphQLInt, GraphQLString } from "graphql";
+import { GraphQLFloat, GraphQLID, GraphQLInt, GraphQLString } from "graphql";
 import { ProductType } from "../typedefs/Products";
+import { Products } from '../../entities/Products'
 
 export const ADD_PRODUCT = {
     type: ProductType,
@@ -11,9 +12,21 @@ export const ADD_PRODUCT = {
         quantity: { type: GraphQLInt },
         image: { type: GraphQLString },
     },
-    resolve(parent: any, args: any) {
+    async resolve(parent: any, args: any) {
         const {name, description, price, category, quantity, image} = args
+        await Products.insert({name, description, price, category, quantity, image})
         return args
     }
+}
+
+export const DELETE_PRODUCT = {
+    type: ProductType,
+    args: {
+        id : {type: GraphQLID}
+    },
+    async resolve(parent: any, args: any) {
+        const id = args.id
+        await Products.delete({product_id : id})
+    } 
 }
 

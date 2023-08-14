@@ -1,7 +1,8 @@
 import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
 import { Cart } from './Cart';
+import { Products } from './Products';
 
-//does this need to be linked to products? one to one or many to one?
+//Link Product ID
 //import { Products } from './Products';
 
 
@@ -13,8 +14,15 @@ export class Cart_Items extends BaseEntity {
   @Column()
   quantity!: number;
 
+  @Column()
+  subtotal!: number;
+
   @ManyToOne(() => Cart, order => order.cartItems)
   @JoinColumn({ name: 'order_id' })
   order!: Cart;
+
+  @ManyToOne(() => Products, product => product.cItems)
+  @JoinColumn({ name: 'product_id' })
+  product!: Products;
 
 }

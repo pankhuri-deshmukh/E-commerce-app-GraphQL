@@ -1,6 +1,6 @@
 import { GraphQLObjectType, GraphQLSchema } from "graphql";
 import { GET_ALL_PRODUCTS } from './queries/Products'
-import { ADD_PRODUCT } from './mutations/Products'
+import { ADD_PRODUCT, DELETE_PRODUCT } from './mutations/Products'
 
 
 const RootQuery = new GraphQLObjectType({
@@ -14,6 +14,7 @@ const Mutation = new GraphQLObjectType({
     name: "Mutation",
     fields: {
         addProduct : ADD_PRODUCT,
+        deleteProduct : DELETE_PRODUCT
     }
 })
 

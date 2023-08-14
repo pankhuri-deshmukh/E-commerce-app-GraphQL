@@ -1,7 +1,8 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
 import { Orders } from './Orders';
+import { Products } from './Products';
 
-//does this need to be linked to products? one to one or many to one?
+//Link Product ID
 //import { Products } from './Products';
 
 @Entity()
@@ -19,21 +20,8 @@ export class OrderItem {
   @JoinColumn({ name: 'order_id' })
   order!: Orders;
 
+  @ManyToOne(() => Products, product => product.oItems)
+  @JoinColumn({ name: 'product_id' })
+  product!: Products;
+  
 }
-
-
-
-// import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
-
-// @Entity()
-// export class OrderItem extends BaseEntity {
-//   @PrimaryGeneratedColumn()
-//   item_id!: number;
-
-//   @Column({ type: 'int', nullable: false })
-//   quantity!: number;
-
-//   @Column({ type: 'decimal', nullable: false })
-//   subtotal!: number;
-
-// }
