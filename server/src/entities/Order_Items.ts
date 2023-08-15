@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, BaseEntity } from 'typeorm';
 import { Orders } from './Orders';
 import { Products } from './Products';
 
@@ -6,7 +6,7 @@ import { Products } from './Products';
 //import { Products } from './Products';
 
 @Entity()
-export class OrderItem {
+export class OrderItem extends BaseEntity{
   @PrimaryGeneratedColumn()
   item_id!: number;
 

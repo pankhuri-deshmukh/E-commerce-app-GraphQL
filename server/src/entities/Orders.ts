@@ -1,17 +1,22 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, JoinColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, JoinColumn, BaseEntity } from 'typeorm';
 import { Users } from './Users';
 import { OrderItem } from './Order_Items';
 
+enum PaymentStatus {
+  CONFIRMED = "confirmed",
+  CANCELLED = "cancelled",
+}
+
 @Entity()
-export class Orders {
+export class Orders extends BaseEntity{
   @PrimaryGeneratedColumn()
   order_id!: number;
 
   @Column({type: 'decimal', precision: 10, scale: 2})
   total_amount!: number;
 
-  @Column()
-  payment_status!: string;
+  @Column({ type: 'enum', enum: PaymentStatus })
+  payment_status!: PaymentStatus;
 
   @ManyToOne(() => Users, user => user.orders)
   @JoinColumn({ name: 'user_id' })
@@ -19,7 +24,5 @@ export class Orders {
 
   @OneToMany(() => OrderItem, orderItem => orderItem.order)
   orderItems!: OrderItem[];
-
-  
 
 }

@@ -34,6 +34,7 @@ export const ADD_ITEM_TO_CART = {
 
         //this does not work at present - fix it
         itsCart.total_amount += calcTotal(reqProduct.price, quantity)
+        await Cart.update({ cart_id: user_id }, { total_amount: itsCart.total_amount });
 
         cartItem.product = reqProduct;
         cartItem.cart = itsCart;
