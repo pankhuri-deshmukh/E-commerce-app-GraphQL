@@ -9,7 +9,7 @@ export class Cart extends BaseEntity {
   @Column()
   total_amount!: number;
 
-  @OneToMany(() => Cart_Items, orderItem => orderItem.order)
+  @OneToMany(() => Cart_Items, orderItem => orderItem.cart)
   cartItems!: Cart_Items[];
 
 }

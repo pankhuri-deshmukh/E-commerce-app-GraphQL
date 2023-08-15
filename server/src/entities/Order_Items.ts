@@ -13,7 +13,7 @@ export class OrderItem {
   @Column()
   quantity!: number;
 
-  @Column()
+  @Column({type: 'decimal', precision: 10, scale: 2})
   subtotal!: number;
 
   @ManyToOne(() => Orders, order => order.orderItems)

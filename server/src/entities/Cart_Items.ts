@@ -2,10 +2,6 @@ import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColu
 import { Cart } from './Cart';
 import { Products } from './Products';
 
-//Link Product ID
-//import { Products } from './Products';
-
-
 @Entity()
 export class Cart_Items extends BaseEntity {
   @PrimaryGeneratedColumn()
@@ -14,12 +10,12 @@ export class Cart_Items extends BaseEntity {
   @Column()
   quantity!: number;
 
-  @Column()
+  @Column({type: 'decimal', precision: 10, scale: 2})
   subtotal!: number;
 
-  @ManyToOne(() => Cart, order => order.cartItems)
-  @JoinColumn({ name: 'order_id' })
-  order!: Cart;
+  @ManyToOne(() => Cart, cart => cart.cartItems)
+  @JoinColumn({ name: 'cart_id' })
+  cart!: Cart;
 
   @ManyToOne(() => Products, product => product.cItems)
   @JoinColumn({ name: 'product_id' })
