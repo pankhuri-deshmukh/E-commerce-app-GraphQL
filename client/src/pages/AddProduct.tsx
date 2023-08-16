@@ -2,7 +2,6 @@ import React from 'react'
 import {Formik, Form, Field} from 'formik'
 //can also use ErrorMessage for displaying error messages
 import * as Yup from 'yup'
-import axios from 'axios';
 
 const AddProduct = () => {
 
@@ -27,7 +26,7 @@ const AddProduct = () => {
   const onSubmit = (data : object) => {
       console.log("add product");
     }
-    
+
   return (
     <div>
       <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
