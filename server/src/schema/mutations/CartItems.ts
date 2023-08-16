@@ -20,24 +20,23 @@ export const ADD_ITEM_TO_CART = {
             }
         })
 
-        const itsCart : Cart = await Cart.findOneOrFail({where : { 
-            cart_id : user_id 
-        }
-    })
+        const itsCart = await Cart.findOneOrFail({
+            where : {
+                cart_id : user_id
+            }
+        })
+
+        itsCart.total_amount += calcTotal(reqProduct.price, quantity)
+        await Cart.update({ cart_id: user_id }, { total_amount: itsCart.total_amount });
 
         //user_id is the same as cart_id
         // Create the cart item entry 
         const cartItem = await Cart_Items.create({
             quantity,
             subtotal: calcTotal(reqProduct.price, quantity),
+            product: reqProduct,
+            cart : itsCart,
         });
-
-        //this does not work at present - fix it
-        itsCart.total_amount += calcTotal(reqProduct.price, quantity)
-        await Cart.update({ cart_id: user_id }, { total_amount: itsCart.total_amount });
-
-        cartItem.product = reqProduct;
-        cartItem.cart = itsCart;
 
         await Cart_Items.insert(cartItem);
 

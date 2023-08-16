@@ -33,7 +33,7 @@ export const ADD_USER = {
         // Associate the cart with the user
         user.cart = cart;
 
-        // Save both the user and the cart entities
+        // Save the user entity
         await Users.insert(user);
         
 
