@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
-import { GET_ALL_PRODUCTS } from '../graphql/queries'; // Import your GraphQL query
+import { GET_ALL_PRODUCTS } from '../graphql/queries'; 
 import ProductCard from '../components/ProductCard';
 
 interface Product {
-  product_id: number; // Assuming your product has an 'id' field
+  product_id: number; 
   name: string;
   description: string;
   price: string;

@@ -1,5 +1,5 @@
 import { GraphQLString } from "graphql"
-import { UserType } from "../typedefs/User"
+import { UserLoginType, UserType } from "../typedefs/User"
 import { Users } from "../../entities/Users"
 import { Cart } from "../../entities/Cart";
 import bcrypt from "bcryptjs"
@@ -59,5 +59,38 @@ export const ADD_USER = {
         // Save the user entity
         await Users.insert(user);
         return user;
+    }
+}
+
+export const LOGIN_USER = {
+    type: UserLoginType,
+    args: {
+        password: { type: GraphQLString },
+        email: { type: GraphQLString }
+    },
+    async resolve(parent: any, args: any) {
+        const { password, email } = args;
+
+        //see if a user exists with that email and entered password matches stored password, else return error
+        const user = await Users.findOne({where : {
+            email : email
+        }})
+        if(user && (await bcrypt.compare(password, user.password))) {
+            //then create a new token
+            //attach the new token to the user
+            const secret_string = process.env.PROTECTED_STRING as string
+            const token = jwt.sign({ user_id : user.user_id, email}, secret_string, {
+            expiresIn: "3h"
+            })
+
+            user.token = token
+            await Users.save(user)
+
+            return user
+
+        }
+        else {
+            throw new Error("Login failed.")
+        } 
     }
 }

@@ -1,65 +1,99 @@
-// import React, { useState, FormEvent } from 'react';
-// import { useMutation } from '@apollo/client';
-// import { REGISTER_USER } from '../graphql/mutations'; // Import your GraphQL mutation
+import React, { useState } from "react";
+import { useMutation } from "@apollo/client";
+import { ADD_USER } from "../graphql/mutations"; // Import your GraphQL mutation
+import { Link, useNavigate } from "react-router-dom";
 
-// const Register: React.FC = () => {
-//   const [email, setEmail] = useState<string>('');
-//   const [password, setPassword] = useState<string>('');
-//   const [registerUser, { loading, error }] = useMutation(REGISTER_USER, {
-//     onCompleted: (data) => {
-//       console.log('Registration successful!', data);
-//     },
-//   });
+const Register: React.FC = () => {
+  const [name, setName] = useState<string>("");
+  const [username, setUsername] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
 
-//   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-//     event.preventDefault();
+  const navigate = useNavigate()
 
-//     // Perform the registration mutation
-//     registerUser({
-//       variables: {
-//         email,
-//         password,
-//       },
-//     });
-//   };
+  const [addUserMutation] = useMutation(ADD_USER);
 
-//   return (
-//     <div>
-//       <h2>Register</h2>
-//       <form onSubmit={handleSubmit}>
-//         <div>
-//           <label>Email:</label>
-//           <input
-//             type="email"
-//             value={email}
-//             onChange={(e) => setEmail(e.target.value)}
-//           />
-//         </div>
-//         <div>
-//           <label>Password:</label>
-//           <input
-//             type="password"
-//             value={password}
-//             onChange={(e) => setPassword(e.target.value)}
-//           />
-//         </div>
-//         <button type="submit" disabled={loading}>
-//           Register
-//         </button>
-//         {error && <p>Error: {error.message}</p>}
-//       </form>
-//     </div>
-//   );
-// };
+  const handleAddUser = async (event: React.FormEvent) => {
+    event.preventDefault();
 
-// export default Register;
+    try {
+      const { data } = await addUserMutation({
+        variables: { name, username, password, email },
+      });
 
-import React from 'react'
+      const user = data.addUser;
+      console.log("New user:", user);
 
-const Register = () => {
+      const prevLocation = window.history.state?.from || "/";
+          navigate(prevLocation); 
+      
+
+    } catch (error) {
+      console.error("Add user error:", error);
+    }
+  };
+
   return (
-    <div>Register</div>
-  )
-}
+    <div className="flex justify-center p-10 min-h-screen">
+      <div className="w-full max-w-md bg-white rounded-lg">
+      <h2 className=" text-center text-3xl leading-9 font-bold text-gray-900"> User Registration</h2>
+        <form className="space-y-4" onSubmit={handleAddUser}>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Name</label>
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+              className="w-full p-2 border border-gray-300 rounded-3xl"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Username</label>
+            <input
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+              className="w-full p-2 border border-gray-300 rounded-3xl"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Email</label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              className="w-full p-2 border border-gray-300 rounded-3xl"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Password</label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              className="w-full p-2 border border-gray-300 rounded-3xl"
+            />
+          </div>
+          
+          <button type="submit" className="group relative w-full flex justify-center py-2 px-4 text-sm leading-5 font-medium text-blue-500 border-2 rounded-full border-blue-500 hover:shadow-2xl">
+                      Register
+                    </button>
+                    <div className="mt-4 text-center">
+                  <p className="text-sm text-gray-600">
+                    Have an account?{" "}
+                    <Link to="/user" className="font-medium text-blue-500 hover:underline">
+                      Click to login
+                    </Link>
+                  </p>
+                </div>
+        </form>
+      </div>
+    </div>
+  );
+};
 
-export default Register
+export default Register;

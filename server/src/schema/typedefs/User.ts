@@ -11,3 +11,12 @@ export const UserType = new GraphQLObjectType({
         token: {type: GraphQLString},
     })
 })
+
+export const UserLoginType = new GraphQLObjectType({
+    name: "UserLoginInput",
+    fields: () => ({
+        password: { type: GraphQLString },
+        email: { type: GraphQLString },
+        token: {type: GraphQLString},
+    })
+})
