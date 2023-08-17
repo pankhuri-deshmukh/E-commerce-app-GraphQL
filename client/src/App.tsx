@@ -4,6 +4,9 @@ import { Routes, Route } from "react-router-dom"
 import ProductPage from './pages/ProductPage';
 import AddProduct from './pages/AddProduct';
 import ViewProduct from './pages/ViewProduct';
+import Navbar from './components/Navbar';
+import Login from './pages/Login';
+import Register from './pages/Register';
 
 
 
@@ -17,10 +20,13 @@ function App() {
   return (
     <ApolloProvider client={client}>
     <div>
+      <Navbar/>
     <Routes>
       <Route path='/' element={<ProductPage />} />
       <Route path='/products/add' element={<AddProduct />} />
       <Route path='/products/:id' element={<ViewProduct />} />
+      <Route path='/user' element={<Login/>} />
+      <Route path='/register' element={<Register/>} />
     </Routes>
     </div>
   </ApolloProvider>

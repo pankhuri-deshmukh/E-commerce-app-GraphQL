@@ -49,7 +49,8 @@ const ViewProduct: React.FC = () => {
       <p className="text-gray-700 mb-2">{product.description}</p>
       <p className="text-gray-900 font-semibold">Price: Rs. {product.price}</p>
       <p className="text-gray-900">Category: {product.category}</p>
-      <p className="text-gray-900">Quantity: {product.quantity}</p>
+      {/* <p className="text-gray-900">Quantity: {product.quantity}</p> */}
+      <button>Add to cart</button>
     </div>
   );
 };

@@ -21,6 +21,9 @@ export class Users extends BaseEntity {
   @Column({ type: 'varchar', nullable: false })
   password!: string;
 
+  @Column({ type: 'varchar'})
+  token!: string;
+
   //can be ignored, since no access intended
   @OneToMany(() => Review, (review) => review.user)
   reviews!: Review[]

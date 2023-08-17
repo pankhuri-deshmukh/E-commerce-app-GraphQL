@@ -1,75 +1,40 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { ADD_PRODUCT } from '../graphql/mutations';
-
-interface Product {
-  name: string;
-  description: string;
-  price: string;
-  category: string;
-  quantity: number;
-  image: string;
-}
+import { Link } from 'react-router-dom';
 
 const AddProduct: React.FC = () => {
-  const initialValues: Product = {
-    name: '',
-    description: '',
-    price: '',
-    category: '',
-    quantity: 0,
-    image: '',
-  };
+  
+  const [name, setName] = useState("")
+  const [description, setDesc] = useState("")
+  const [price, setPrice] = useState(0)
+  const [quantity, setQuantity] = useState(0)
+  const [category, setCategory] = useState("")
+  const [image, setImage] = useState("")
 
-  const [formData, setFormData] = useState<Product>(initialValues);
+  const [addProduct, {error}] = useMutation(ADD_PRODUCT);
 
-  const [addProduct] = useMutation(ADD_PRODUCT);
-
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
-  };
-
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    try {
-      const { name, description, price, category, quantity, image } = formData;
-
-      await addProduct({
-        variables: {
-          input: {
-            name,
-            description,
-            price: parseFloat(price),
-            category,
-            quantity,
-            image,
-          },
-        },
-      });
-
-      console.log('Product added successfully!');
-      // You can perform any additional actions after the mutation here.
-
-      // Reset the form after successful submission
-      setFormData(initialValues);
-    } catch (error) {
-      console.error('Error adding product:', error);
-    }
+  const resetForm = () => {
+    setName("");
+    setDesc("");
+    setPrice(0);
+    setQuantity(0);
+    setCategory("");
+    setImage("");
   };
 
   return (
     <div className="max-w-md mx-auto mt-8 p-6 bg-white shadow-md rounded-lg">
       <h1 className="text-2xl font-semibold mb-4">Add a New Product</h1>
-      <form onSubmit={handleSubmit}>
       <label className="block mb-2">
           Product Name:
           <input
             type="text"
             name="name"
-            value={formData.name}
-            onChange={handleInputChange}
+            value={name}
+            onChange={(event) => {
+              setName(event.target.value);
+            }}
             placeholder="Enter product name"
             className="block w-full mt-1 p-2 border rounded-md"
           />
@@ -79,8 +44,10 @@ const AddProduct: React.FC = () => {
           Description:
           <input
             name="description"
-            value={formData.description}
-            onChange={handleInputChange}
+            value={description}
+            onChange={(event) => {
+              setDesc(event.target.value);
+            }}
             placeholder="Describe product here..."
             className="block w-full mt-1 p-2 border rounded-md"
           />
@@ -91,8 +58,10 @@ const AddProduct: React.FC = () => {
           <input
             type="number"
             name="price"
-            value={formData.price}
-            onChange={handleInputChange}
+            value={price}
+            onChange={(event) => {
+              setPrice(parseFloat(event.target.value));
+            }}
             placeholder=""
             className="block w-full mt-1 p-2 border rounded-md"
           />
@@ -103,8 +72,10 @@ const AddProduct: React.FC = () => {
           <input
             type="text"
             name="category"
-            value={formData.category}
-            onChange={handleInputChange}
+            value={category}
+            onChange={(event) => {
+              setCategory(event.target.value);
+            }}
             placeholder=""
             className="block w-full mt-1 p-2 border rounded-md"
           />
@@ -115,8 +86,10 @@ const AddProduct: React.FC = () => {
           <input
             type="number"
             name="quantity"
-            value={formData.quantity}
-            onChange={handleInputChange}
+            value={quantity}
+            onChange={(event) => {
+              setQuantity(parseInt(event.target.value));
+            }}
             placeholder=""
             className="block w-full mt-1 p-2 border rounded-md"
           />
@@ -127,20 +100,40 @@ const AddProduct: React.FC = () => {
           <input
             type="text"
             name="image"
-            value={formData.image}
-            onChange={handleInputChange}
+            value={image}
+            onChange={(event) => {
+              setImage(event.target.value);
+            }}
             placeholder=""
             className="block w-full mt-1 p-2 border rounded-md"
           />
         </label>
 
         <button
+        onClick={() => {
+          addProduct({
+            variables: {
+              name: name,
+              description: description,
+              price: price,
+              quantity: quantity,
+              category: category,
+              image: image,
+            },
+          }).then(() => {
+            resetForm();
+          });
+        }}
           type="submit"
-          className="bg-blue-500 text-white rounded-md py-2 px-4 hover:bg-blue-600 mt-4"
+          className="bg-blue-500 text-white rounded-md py-2 px-4 hover:bg-blue-600 mt-4 m-1"
         >
           Add Product
         </button>
-      </form>
+        <Link to="/">
+        <button className="bg-blue-500 text-white rounded-md py-2 px-4 hover:bg-blue-600 mt-4 m-1">
+          Back to All Products
+        </button>
+        </Link>
     </div>
   );
 };

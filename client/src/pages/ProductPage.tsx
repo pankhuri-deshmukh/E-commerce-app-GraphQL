@@ -35,11 +35,7 @@ const ProductPage: React.FC = () => {
 
   return (
     <>
-      <Link to="/products/add">
-        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-          Add Product
-        </button>
-      </Link>
+    <h1 className="text-2xl font-semibold mb-4">All Products</h1>
       <div className="grid grid-cols-2 gap-4">
       {allProducts.map((product) => (
         <ProductCard key={product.product_id} product={product} />

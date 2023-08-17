@@ -11,13 +11,17 @@ import { Orders } from "./entities/Orders";
 import { OrderItem } from "./entities/Order_Items";
 import { Cart } from "./entities/Cart";
 import { Cart_Items } from "./entities/Cart_Items";
+import * as dotenv from "dotenv"
+
+dotenv.config({path : __dirname+'/.env'})
+
 
 const main = async () => {
   const connectDB = await new DataSource({
     type: "mysql",
     database: "store_w_graphql",
-    username: "root",
-    password: "bugzy",
+    username: process.env.DB_USERNAME,
+    password: process.env.DB_PASSWORD,
     logging: true,
     synchronize: false,
     entities: [Products, Password_Reset, Review, Users, Orders, OrderItem, Cart, Cart_Items],
