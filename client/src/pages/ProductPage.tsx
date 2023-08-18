@@ -3,16 +3,7 @@ import { Link } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import { GET_ALL_PRODUCTS } from '../graphql/queries'; 
 import ProductCard from '../components/ProductCard';
-
-interface Product {
-  product_id: number; 
-  name: string;
-  description: string;
-  price: string;
-  category: string;
-  quantity: number;
-  image: string;
-}
+import { Product } from '../interfaces/Product';
 
 const ProductPage: React.FC = () => {
   const [allProducts, setAllProducts] = useState<Product[]>([]);

@@ -1,19 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-
-interface Product {
-  product_id: number;
-  name: string;
-  description: string;
-  price: string;
-  category: string;
-  quantity: number;
-  image: string;
-}
-
-interface ProductCardProps {
-  product: Product;
-}
+import { ProductCardProps } from '../interfaces/Product';
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const navigate = useNavigate();

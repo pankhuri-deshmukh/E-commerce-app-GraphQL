@@ -7,7 +7,6 @@ import ViewProduct from './pages/ViewProduct';
 import Navbar from './components/Navbar';
 import Login from './pages/Login';
 import Register from './pages/Register';
-import CartSide from './components/CartSide';
 import AllOrders from './pages/AllOrders';
 
 
