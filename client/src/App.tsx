@@ -7,6 +7,7 @@ import ViewProduct from './pages/ViewProduct';
 import Navbar from './components/Navbar';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import CartSide from './components/CartSide';
 
 
 
@@ -25,7 +26,7 @@ function App() {
       <Route path='/' element={<ProductPage />} />
       <Route path='/products/add' element={<AddProduct />} />
       <Route path='/products/:id' element={<ViewProduct />} />
-      <Route path='/user' element={<Login/>} />
+      <Route path='/login' element={<Login/>} />
       <Route path='/register' element={<Register/>} />
     </Routes>
     </div>

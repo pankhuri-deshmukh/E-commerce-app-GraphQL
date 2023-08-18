@@ -22,6 +22,8 @@ const Login: React.FC = () => {
         // console.log(user);
   
         if (user) {
+          const token = user.token
+          localStorage.setItem("token", token);
           // correct this - only redirects to "/"
           const prevLocation = window.history.state?.from || "/";
           navigate(prevLocation); 
