@@ -2,7 +2,9 @@ import React from 'react'
 
 const CartItemCard = () => {
   return (
-    <div>CartItemCard</div>
+    <div>CartItemCard
+      {/* will receive props */}
+    </div>
   )
 }
 

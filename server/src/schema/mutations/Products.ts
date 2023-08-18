@@ -1,21 +1,9 @@
 import { GraphQLFloat, GraphQLID, GraphQLInt, GraphQLInputObjectType, GraphQLString } from "graphql";
-import { ProductType } from "../typedefs/Products";
+import { ProductType, UpdateProductInputType } from "../typedefs/Products";
 import { Products } from '../../entities/Products'
 
-  const UpdateProductInputType = new GraphQLInputObjectType({
-    name: 'UpdateProductInput',
-    fields: {
-      name: { type: GraphQLString },
-      description: { type: GraphQLString },
-      price: { type: GraphQLFloat },
-      category: { type: GraphQLString },
-      quantity: { type: GraphQLInt },
-      image: { type: GraphQLString },
-    },
-  });
-  
-
 export const ADD_PRODUCT = {
+    //ADMIN FUNCTION ONLY
     type: ProductType,
     args: {
         name: { type: GraphQLString },
@@ -33,6 +21,7 @@ export const ADD_PRODUCT = {
 }
 
 export const UPDATE_PRODUCT = {
+    //ADMIN FUNCTION ONLY
     type: ProductType,
     args: {
         id : {type: GraphQLID},
@@ -51,6 +40,7 @@ export const UPDATE_PRODUCT = {
 }
 
 export const DELETE_PRODUCT = {
+    //ADMIN FUNCTION ONLY
     type: ProductType,
     args: {
         id : {type: GraphQLID}

@@ -1,24 +1,45 @@
-import { GraphQLInt } from "graphql";
+import { GraphQLInt, GraphQLString } from "graphql";
 import { CartItemType } from "../typedefs/Cart_Item";
 import { Cart_Items } from "../../entities/Cart_Items";
 import { Products } from "../../entities/Products";
 import { calcTotal } from "../../services/calcTotal";
 import { Cart } from "../../entities/Cart";
+import jwt from "jsonwebtoken"
+import * as dotenv from "dotenv"
+import { Users } from "../../entities/Users";
+
+dotenv.config({path : __dirname+'/.env'})
 
 export const ADD_ITEM_TO_CART = {
     type: CartItemType,
     args: {
-        user_id: { type: GraphQLInt },
         product_id: { type: GraphQLInt },
         quantity: { type: GraphQLInt },
+        token: {type: GraphQLString }
     },
     async resolve(parent: any, args: any) {
-        const { user_id, product_id, quantity } = args;
+        const {product_id, quantity, token } = args;
 
-        const reqProduct : Products = await Products.findOneOrFail({where : { 
-                product_id : product_id 
+        try {
+
+            //authorization process -
+            const secret_string = process.env.PROTECTED_STRING as string
+            const decodedToken = jwt.verify(token, secret_string) as jwt.JwtPayload;
+
+            const user_id = decodedToken.user_id
+            const itsUser = await Users.findOneOrFail({ where: {
+                user_id : user_id
+            }})
+
+            if (decodedToken.email !== itsUser.email) {
+                throw new Error("Unauthorized action"); 
             }
-        })
+
+        //authorization successful - 
+            const reqProduct : Products = await Products.findOneOrFail({where : { 
+                product_id : product_id 
+                }
+            })
 
         const itsCart = await Cart.findOneOrFail({
             where : {
@@ -41,5 +62,13 @@ export const ADD_ITEM_TO_CART = {
         await Cart_Items.insert(cartItem);
 
         return cartItem;
+
+
+        }
+        catch {
+            throw new Error("Unsuccessful!")
+        }
+
+        
     }
 }

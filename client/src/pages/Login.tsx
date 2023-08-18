@@ -23,7 +23,9 @@ const Login: React.FC = () => {
   
         if (user) {
           const token = user.token
-          localStorage.setItem("token", token);
+          sessionStorage.setItem("token", token);
+
+          //on login, bring back to product page/whereever user was before
           // correct this - only redirects to "/"
           const prevLocation = window.history.state?.from || "/";
           navigate(prevLocation); 

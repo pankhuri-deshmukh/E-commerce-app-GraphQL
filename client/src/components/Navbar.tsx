@@ -38,7 +38,7 @@ const Navbar = () => {
         </Link>
       </div>
     </div>
-    <div className={`bg-gray-100 w-[30%] h-full fixed top-16 right-0 transform transition-transform duration-500 ${viewCart ? 'translate-x-0' : 'translate-x-full'}`}>
+    <div className={`bg-gray-100 w-[30%] h-full fixed top-16 right-0 transform transition-transform duration-500 shadow-xl ${viewCart ? 'translate-x-0' : 'translate-x-full'}`}>
         <div onClick={handleClick} className="flex ">
           <AiOutlineClose size={20} className="mr-2 text-blue-500" />
         </div>

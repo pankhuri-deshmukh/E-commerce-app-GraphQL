@@ -22,14 +22,16 @@ const Register: React.FC = () => {
       });
 
       const user = data.addUser;
-      console.log("New user:", user);
+      //store the user's generated token
+      const token = user.token
+      sessionStorage.setItem("token", token);
 
       const prevLocation = window.history.state?.from || "/";
           navigate(prevLocation); 
       
 
     } catch (error) {
-      console.error("Add user error:", error);
+      console.error("Registration error:", error);
     }
   };
 

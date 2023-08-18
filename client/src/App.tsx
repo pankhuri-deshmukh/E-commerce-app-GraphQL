@@ -8,6 +8,7 @@ import Navbar from './components/Navbar';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import CartSide from './components/CartSide';
+import AllOrders from './pages/AllOrders';
 
 
 
@@ -28,6 +29,7 @@ function App() {
       <Route path='/products/:id' element={<ViewProduct />} />
       <Route path='/login' element={<Login/>} />
       <Route path='/register' element={<Register/>} />
+      <Route path='/myorders' element={<AllOrders/>} />
     </Routes>
     </div>
   </ApolloProvider>

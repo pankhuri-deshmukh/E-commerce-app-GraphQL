@@ -41,3 +41,19 @@ export const ADD_USER = gql`
   }
 `;
 
+
+export const ADD_TO_USER_CART = gql`
+  mutation AddToUserCart($product_id: Int!, $quantity: Int!, $token: String!) {
+    addItemToCart(product_id: $product_id, quantity: $quantity, token: $token) {
+      cart_item_id
+      quantity
+      subtotal
+      product {
+        name
+        price
+        image
+        category
+      }
+    }
+  }
+`;

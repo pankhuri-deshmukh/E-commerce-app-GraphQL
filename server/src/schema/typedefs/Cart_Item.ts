@@ -1,4 +1,4 @@
-import {GraphQLObjectType, GraphQLID, GraphQLInt, GraphQLFloat} from 'graphql'
+import {GraphQLObjectType, GraphQLID, GraphQLInt, GraphQLFloat, GraphQLString} from 'graphql'
 import { ProductType } from './Products'
 import { CartType } from './Cart'
 
@@ -9,6 +9,7 @@ export const CartItemType = new GraphQLObjectType({
         quantity: { type: GraphQLInt },
         subtotal: { type: GraphQLFloat },
         product : { type: ProductType },
-        cart : { type: CartType }
+        cart : { type: CartType },
+        //token?
     })
 })
