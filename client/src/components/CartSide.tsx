@@ -13,7 +13,7 @@ const CartSide = () => {
 
   useEffect(() => {
     if (data) {
-      setAllCartItems(data.getAllProducts); 
+      setAllCartItems(data.viewCart); 
     }
   }, [data]);
 

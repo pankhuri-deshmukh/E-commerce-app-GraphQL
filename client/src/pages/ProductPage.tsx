@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import { GET_ALL_PRODUCTS } from '../graphql/queries'; 
 import ProductCard from '../components/ProductCard';
@@ -7,7 +6,6 @@ import { Product } from '../interfaces/Product';
 
 const ProductPage: React.FC = () => {
   const [allProducts, setAllProducts] = useState<Product[]>([]);
-  // const navigate = useNavigate();
 
   const { loading, error, data } = useQuery(GET_ALL_PRODUCTS); 
   useEffect(() => {

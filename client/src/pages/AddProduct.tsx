@@ -13,6 +13,7 @@ const AddProduct: React.FC = () => {
   const [image, setImage] = useState("")
 
   const [addProduct, {error}] = useMutation(ADD_PRODUCT);
+  //error handling needed here
 
   const resetForm = () => {
     setName("");
