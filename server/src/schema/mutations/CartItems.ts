@@ -19,7 +19,7 @@ export const ADD_ITEM_TO_CART = {
     },
     async resolve(parent: any, args: any) {
         const {product_id, quantity, token } = args;
-
+console.log(args)
         try {
 
             //authorization process -

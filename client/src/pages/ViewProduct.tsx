@@ -1,18 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useMutation, useQuery } from '@apollo/client';
-import { GET_PRODUCT_BY_ID } from '../graphql/queries';
-import { ADD_TO_USER_CART } from '../graphql/mutations';
-
-interface Product {
-  product_id: number;
-  name: string;
-  description: string;
-  price: string;
-  category: string;
-  quantity: number;
-  image: string;
-}
+import { GET_PRODUCT_BY_ID } from '../graphql/queries/Product';
+import { ADD_ITEM_TO_CART } from '../graphql/mutations/Cart';
+import { Product } from '../interfaces/Product';
 
 type IDParams = {
   id: string;
@@ -25,10 +16,10 @@ function invariant(value: unknown): asserts value {
 
 const ViewProduct: React.FC = () => {
 
-  const [addToCartMutation] = useMutation(ADD_TO_USER_CART);
+  const [addItemToCart] = useMutation(ADD_ITEM_TO_CART);
 
   const navigate = useNavigate()
-  const [quantity, setQuantity] = useState(0)
+  const [quantity, setQuantity] = useState(1)
 
   const { id } = useParams<IDParams>();
   invariant(id)
@@ -44,34 +35,31 @@ const ViewProduct: React.FC = () => {
   if (error) return <p>Error: {error.message}</p>;
 
   const product: Product = data.getProductById;
-  const product_id = product.product_id
+  const product_id = Number(product.product_id)
 
   
   const handleAddToCart = async () => {
     //if user is authenticated, add to cart
     //else, redirect to login page 
 
-    const token = sessionStorage.getItem("token");
+    const token = sessionStorage.getItem('token');
+    
 
   if (!token) {
-    //if no token is present, user is not logged in
     navigate("/login")  
   }
 
-  //if token is present, do add to cart - authorization is done at server side so it will fail if credentials do not match
   try {
-    const { data } = await addToCartMutation({
-      variables: {product_id, quantity, token },
+    const { data } = await addItemToCart({
+      variables: {product_id, quantity , token },
     });
-
-    if (data.addToCart) {
+    if (data) {
       console.log("Successfully added to cart")
     }
-
-  } catch (error) {
+  } 
+  catch (error) {
     console.error("Add to cart error:", error);
   }
-
   }
 
   return (

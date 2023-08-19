@@ -4,10 +4,18 @@ import { Review } from './Review'
 import { Orders } from './Orders';
 import { Cart } from './Cart';
 
+enum Role {
+  ADMIN = "admin",
+  USER = "user",
+}
+
 @Entity()
 export class Users extends BaseEntity {
   @PrimaryGeneratedColumn()
   user_id!: number;
+
+  @Column({ type: 'enum', enum: Role, default: Role.USER })
+  role!:Role;
 
   @Column({ type: 'varchar', nullable: false })
   username!: string;

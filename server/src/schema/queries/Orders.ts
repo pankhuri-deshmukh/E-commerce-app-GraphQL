@@ -4,11 +4,7 @@ import { OrderType } from "../typedefs/Orders";
 import { Orders } from "../../entities/Orders";
 import { OrderItemType } from "../typedefs/Order_Item";
 import { OrderItem } from "../../entities/Order_Items";
-import jwt from "jsonwebtoken"
-import * as dotenv from "dotenv"
-import { Users } from "../../entities/Users";
-
-dotenv.config({path : __dirname+'/.env'})
+import { isAuthorized } from "../../services/authorize";
 
 export const VIEW_ALL_ORDERS = {
     type: new GraphQLList(OrderType),
@@ -20,20 +16,13 @@ export const VIEW_ALL_ORDERS = {
 
         try{
             //authorization process -
-        const secret_string = process.env.PROTECTED_STRING as string
-        const decodedToken = jwt.verify(token, secret_string) as jwt.JwtPayload;
-
-        const user_id = decodedToken.user_id
-        const itsUser = await Users.findOneOrFail({ where: {
-            user_id : user_id
-        }})
-
-        if (decodedToken.email !== itsUser.email) {
-            throw new Error("Unauthorized action"); 
+        const user_id = await isAuthorized(token);
+        if(user_id === -1){
+            //authorization unsuccessful
+            throw new Error("Unauthorized action");
         }
 
     //authorization successful - 
-
          return Orders.find({
             relations:['user',],
             where: {
@@ -62,17 +51,11 @@ export const VIEW_ORDER_DETAILS = {
 
         try{
             //authorization process -
-        const secret_string = process.env.PROTECTED_STRING as string
-        const decodedToken = jwt.verify(token, secret_string) as jwt.JwtPayload;
-
-        const user_id = decodedToken.user_id
-        const itsUser = await Users.findOneOrFail({ where: {
-            user_id : user_id
-        }})
-
-        if (decodedToken.email !== itsUser.email) {
-            throw new Error("Unauthorized action"); 
-        }
+            const user_id = await isAuthorized(token);
+            if(user_id === -1){
+                //authorization unsuccessful
+                throw new Error("Unauthorized action");
+            }
 
     //authorization successful - 
     return OrderItem.find({

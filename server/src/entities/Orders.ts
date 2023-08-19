@@ -3,8 +3,8 @@ import { Users } from './Users';
 import { OrderItem } from './Order_Items';
 
 enum PaymentStatus {
-  CONFIRMED = "confirmed",
-  CANCELLED = "cancelled",
+  SUCCESSFUL = "successful",
+  FAILED = "failed",
 }
 
 @Entity()

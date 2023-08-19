@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
-import { ADD_PRODUCT } from '../graphql/mutations';
+import { ADD_PRODUCT } from '../graphql/mutations/Product';
 import { Link } from 'react-router-dom';
 
 const AddProduct: React.FC = () => {

@@ -20,4 +20,8 @@ export interface OrderProps {
     order: Order
 }
 
+export interface OrderItemProps {
+    item: OrderItem
+}
+
 

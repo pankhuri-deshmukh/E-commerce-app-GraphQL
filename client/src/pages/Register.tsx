@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useMutation } from "@apollo/client";
-import { ADD_USER } from "../graphql/mutations"; // Import your GraphQL mutation
+import { ADD_USER } from "../graphql/mutations/User"; // Import your GraphQL mutation
 import { Link, useNavigate } from "react-router-dom";
 
 const Register: React.FC = () => {

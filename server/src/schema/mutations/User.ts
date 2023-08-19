@@ -29,7 +29,7 @@ export const ADD_USER = {
         
         //IF USER DOES NOT ALREADY EXIST
 
-        const hashedPassword = await bcrypt.hash(password, 11)
+        const hashedPassword = await bcrypt.hash(password, 10)
         
         // Create the cart entity for the user
         const cart = await Cart.create({
@@ -48,7 +48,7 @@ export const ADD_USER = {
         });
 
         const secret_string = process.env.PROTECTED_STRING as string
-        const token = jwt.sign({ user_id : user.user_id, email}, secret_string, {
+        const token = jwt.sign({ user_id : user.user_id, email, role:user.role}, secret_string, {
             expiresIn: "3h"
         })
 
@@ -79,7 +79,7 @@ export const LOGIN_USER = {
             //then create a new token
             //attach the new token to the user
             const secret_string = process.env.PROTECTED_STRING as string
-            const token = jwt.sign({ user_id : user.user_id, email}, secret_string, {
+            const token = jwt.sign({ user_id : user.user_id, email, role: user.role}, secret_string, {
             expiresIn: "3h"
             })
 

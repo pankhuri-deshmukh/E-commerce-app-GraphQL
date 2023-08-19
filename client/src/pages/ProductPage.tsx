@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useQuery } from '@apollo/client';
-import { GET_ALL_PRODUCTS } from '../graphql/queries'; 
+import { GET_ALL_PRODUCTS } from '../graphql/queries/Product'; 
 import ProductCard from '../components/ProductCard';
 import { Product } from '../interfaces/Product';
 

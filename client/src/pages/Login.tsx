@@ -1,7 +1,7 @@
 import React, { useState, FormEvent } from "react";
 import { useMutation } from "@apollo/client";
 import { useNavigate, Link } from "react-router-dom";
-import { LOGIN_USER } from "../graphql/mutations";
+import { LOGIN_USER } from "../graphql/mutations/User";
 
 const Login: React.FC = () => {
     const [email, setEmail] = useState<string>("");

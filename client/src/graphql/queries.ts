@@ -35,8 +35,6 @@ export const GET_PRODUCT_BY_ID = gql`
 export const VIEW_CART = gql`
   query ViewCart($token: String!) {
     viewCart(token: $token) {
-      // Specify the fields you want to return
-      // For example:
       cart_item_id
       quantity
       subtotal
@@ -51,6 +49,7 @@ export const VIEW_CART = gql`
   `;
 
 // ORDER ////////////////////////////
+
 export const VIEW_ALL_ORDERS = gql`
 query ViewAllOrders($token: String!) {
   viewAllOrders(token: $token) {
@@ -60,4 +59,7 @@ query ViewAllOrders($token: String!) {
     }
   }
 }
+`;
+
+export const VIEW_ORDER_DETAILS = gql`
 `;

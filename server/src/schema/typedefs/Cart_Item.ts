@@ -9,7 +9,8 @@ export const CartItemType = new GraphQLObjectType({
         quantity: { type: GraphQLInt },
         subtotal: { type: GraphQLFloat },
         product : { type: ProductType },
-        cart : { type: CartType },
-        //token?
+        cart : { type: CartType },   
     })
 })
+
+//token also?
