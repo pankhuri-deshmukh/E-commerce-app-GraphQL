@@ -6,6 +6,8 @@ import { Link } from 'react-router-dom';
 import CartSide from './CartSide';
 import UserSide from './UserSide';
 import { ContextTypeCart, ContextTypeUser } from '../interfaces/Context';
+import { useQuery } from '@apollo/client';
+import { CHECK_IF_ADMIN } from '../graphql/queries/User';
 
 export const ContextCart = createContext<ContextTypeCart>({
   viewCart: false,
@@ -37,10 +39,6 @@ const Navbar = () => {
       </Link>
 
       <div className="flex items-center space-x-4">
-        <Link to="/products/add" className="text-white">
-          <RiAddCircleLine size={20} />
-        </Link>
-
         <Link to="/" className="text-white">
           <RiHome2Line size={20} />
         </Link>

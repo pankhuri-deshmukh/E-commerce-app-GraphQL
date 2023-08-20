@@ -1,7 +1,8 @@
 import React, { useState, FormEvent } from "react";
-import { useMutation } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { useNavigate, Link } from "react-router-dom";
 import { LOGIN_USER } from "../graphql/mutations/User";
+import { CHECK_IF_ADMIN } from "../graphql/queries/User";
 
 const Login: React.FC = () => {
     const [email, setEmail] = useState<string>("");
@@ -24,6 +25,8 @@ const Login: React.FC = () => {
         if (user) {
           const token = user.token
           sessionStorage.setItem("token", token);
+        
+          
 
           //on login, bring back to product page/whereever user was before
           // correct this - only redirects to "/"

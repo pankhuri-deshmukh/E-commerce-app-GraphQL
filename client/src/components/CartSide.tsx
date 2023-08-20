@@ -7,6 +7,7 @@ import { VIEW_CART } from '../graphql/queries/Cart';
 import { CREATE_ORDER } from '../graphql/mutations/Order';
 import { ContextTypeCart } from '../interfaces/Context';
 import { ContextCart } from './Navbar';
+import { VIEW_ALL_ORDERS } from '../graphql/queries/Order';
 
 const CartSide = () => {
   const navigate = useNavigate();
@@ -57,6 +58,7 @@ const CartSide = () => {
           payment_status: 'successful', //set to 'successful' by default for now
           token: token,
         },
+        refetchQueries:[{ query: VIEW_ALL_ORDERS, variables:{ token }}, {query: VIEW_CART, variables:{ token: token }}]
       });
 
       const newOrder = data.createOrder;

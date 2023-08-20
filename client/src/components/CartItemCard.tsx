@@ -4,6 +4,7 @@ import { useMutation } from '@apollo/client';
 import { REMOVE_ITEM_FROM_CART } from '../graphql/mutations/Cart';
 import { useNavigate } from 'react-router-dom';
 import { AiOutlineDelete } from 'react-icons/ai';
+import { VIEW_CART } from '../graphql/queries/Cart';
 
 const CartItemCard: React.FC<CartItemProps> = ({ item }) => {
 
@@ -22,6 +23,7 @@ const CartItemCard: React.FC<CartItemProps> = ({ item }) => {
     
     const { data } = await removeItemFromCart({
       variables: {cart_item_id: id , token },
+      refetchQueries:[{ query: VIEW_CART, variables:{ token }}]
     });
     console.log(data)
     if (data) {

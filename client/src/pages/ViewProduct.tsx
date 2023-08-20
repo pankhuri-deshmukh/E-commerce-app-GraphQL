@@ -4,6 +4,7 @@ import { useMutation, useQuery } from '@apollo/client';
 import { GET_PRODUCT_BY_ID } from '../graphql/queries/Product';
 import { ADD_ITEM_TO_CART } from '../graphql/mutations/Cart';
 import { Product } from '../interfaces/Product';
+import { VIEW_CART } from '../graphql/queries/Cart';
 
 type IDParams = {
   id: string;
@@ -52,6 +53,7 @@ const ViewProduct: React.FC = () => {
   try {
     const { data } = await addItemToCart({
       variables: {product_id, quantity , token },
+      refetchQueries:[{ query: VIEW_CART, variables:{ token }}]
     });
     if (data) {
       console.log("Successfully added to cart")
