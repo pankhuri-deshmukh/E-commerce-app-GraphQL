@@ -18,6 +18,9 @@ export class Orders extends BaseEntity{
   @Column({ type: 'enum', enum: PaymentStatus })
   payment_status!: PaymentStatus;
 
+  @Column({ type: 'text', nullable: true })
+  order_status!: string;
+
   @ManyToOne(() => Users, user => user.orders)
   @JoinColumn({ name: 'user_id' })
   user!: Users;

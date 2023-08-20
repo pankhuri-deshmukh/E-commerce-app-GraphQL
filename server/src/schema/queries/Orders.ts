@@ -48,6 +48,7 @@ export const VIEW_ORDER_DETAILS = {
     },
     async resolve(parent: any, args: any){
         const { order_id, token } = args
+        console.log(args)
 
         try{
             //authorization process -

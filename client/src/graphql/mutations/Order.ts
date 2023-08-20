@@ -14,3 +14,11 @@ export const CREATE_ORDER = gql`
     }
   }
 `;
+
+export const CANCEL_ORDER = gql`
+mutation cancelOrder($order_id:Int!, $token: String!){
+  cancelOrder(order_id: $order_id, token: $token) {
+    order_id
+  }
+}
+`;

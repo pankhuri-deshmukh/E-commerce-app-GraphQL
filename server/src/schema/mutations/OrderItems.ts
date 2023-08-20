@@ -38,7 +38,8 @@ export const CREATE_ORDER = {
     const newOrder = await Orders.create({
         payment_status,
         total_amount : userCart.total_amount,
-        user : user
+        user : user,
+        order_status: 'confirmed'
     })
     Orders.insert(newOrder)
 
@@ -90,3 +91,35 @@ export const CREATE_ORDER = {
         
     }
 }
+
+export const CANCEL_ORDER = {
+    type: OrderType,
+    args: {
+        order_id : { type: GraphQLInt },
+        token : { type: GraphQLString }
+    },
+    async resolve(parent: any, args: any) {
+        const { order_id, token} = args
+
+        try {
+           //authorization process -
+           const user_id = await isAuthorized(token);
+           if(user_id === -1){
+               //authorization unsuccessful
+               throw new Error("Unauthorized action");
+           }
+        //authorization successful - 
+        
+    //cancel order
+    const canOrder = await Orders.update({order_id : order_id},{order_status: 'cancelled'})
+    return canOrder 
+
+        }
+        catch {
+            throw new Error("Unsuccessful!")
+        }
+        
+    }
+}
+
+

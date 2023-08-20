@@ -23,4 +23,18 @@ export const ADD_ITEM_TO_CART = gql`
   }
 `;
 
+export const REMOVE_ITEM_FROM_CART = gql`
+mutation removeItemFromCart(
+  $cart_item_id: Int
+  $token: String
+  ) {
+    removeItemFromCart(
+      cart_item_id: $cart_item_id
+      token: $token
+    ) {
+    cart_item_id
+  }
+}
+`;
+
 

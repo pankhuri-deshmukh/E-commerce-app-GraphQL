@@ -1,11 +1,16 @@
 import React, { useState } from 'react';
 import { OrderProps } from '../interfaces/Order';
-import OrderItemCard from './OrderItemCard'; // Import your OrderItemCard component
-import { useQuery } from '@apollo/client'; // Import useQuery
-import { VIEW_ORDER_DETAILS } from '../graphql/queries/Order'; // Import your GraphQL query
+import OrderItemCard from './OrderItemCard'; 
+import { useMutation, useQuery } from '@apollo/client'; 
+import { VIEW_ORDER_DETAILS } from '../graphql/queries/Order'; 
+import { useNavigate } from 'react-router-dom';
+import { CANCEL_ORDER } from '../graphql/mutations/Order';
 
 const OrderCard: React.FC<OrderProps> = ({ order }) => {
   const [showDetails, setShowDetails] = useState(false);
+  const navigate = useNavigate()
+
+  const [cancelOrder] = useMutation(CANCEL_ORDER);
 
   const { loading, error, data } = useQuery(VIEW_ORDER_DETAILS, {
     variables: { order_id: Number(order.order_id), token: sessionStorage.getItem('token') || ''},
@@ -22,6 +27,29 @@ const OrderCard: React.FC<OrderProps> = ({ order }) => {
   if (error) {
     return <p>Error fetching order details.</p>;
   }
+
+  const handleCancel = async () => {
+
+    const token = sessionStorage.getItem('token');
+    if (!token) {
+      navigate("/")  
+    }
+  
+    try {
+      const id = Number(order.order_id)
+  
+      const { data } = await cancelOrder({
+        variables: {order_id: id , token },
+      });
+      if (data) {
+        console.log("Successfully cancelled")
+      }
+    } 
+    catch (error) {
+      console.error("Order cancellation error:", error);
+    }
+  
+    }
 
   return (
     <div className="border p-4 rounded-md shadow-md">
@@ -43,6 +71,9 @@ const OrderCard: React.FC<OrderProps> = ({ order }) => {
           </ul>
         </div>
       )}
+      <div onClick={handleCancel}>
+        X
+      </div>
     </div>
   );
 };
