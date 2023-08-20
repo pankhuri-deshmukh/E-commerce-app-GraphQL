@@ -17,6 +17,7 @@ export const VIEW_ORDER_DETAILS = gql`
     viewOrderDetails(order_id: $order_id, token: $token) {
       product {
         name
+        image
       }
       quantity
       subtotal

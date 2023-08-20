@@ -3,9 +3,11 @@ import { useQuery } from '@apollo/client';
 import { Order } from '../interfaces/Order';
 import OrderCard from '../components/OrderCard';
 import { VIEW_ALL_ORDERS } from '../graphql/queries/Order';
+import { useNavigate } from 'react-router-dom';
 
 const AllOrders: React.FC = () => {
   const [allOrders, setAllOrders] = useState<Order[]>([]);
+  const navigate = useNavigate()
 
   const { loading, error, data } = useQuery(VIEW_ALL_ORDERS, {
     variables: { token: sessionStorage.getItem('token') || '' },
@@ -25,13 +27,23 @@ const AllOrders: React.FC = () => {
     return <p>Error fetching orders.</p>;
   }
 
-  //frontend work - 
-  // Initially, display contents of allOrders. 
-  // create a button called 'details' button on OrderCard - expand div, display OrderItem[] inside that order, replace 'details' button with a minimize icon and a cancel button
+  if (allOrders.length === 0) {
+    return (
+      <div className='h-screen w-full flex justify-center items-center flex-col'>
+        <p className='text-xl mb-4'>Oops! You don't have any orders yet.</p>
+        <button
+          className='bg-black text-white py-2 px-4 rounded-md'
+          onClick={() => navigate('/')}
+        >
+          Browse Products
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div>
-      <h1 className="text-2xl font-semibold mb-4">All Orders</h1>
-      <div className="grid grid-cols-2 gap-4">
+      <div className="mt-6 pl-6 pr-6 mb-6">
         {allOrders.map((order) => (
           <OrderCard key={order.order_id} order={order} />
         ))}

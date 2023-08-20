@@ -1,8 +1,7 @@
 import React, { useState, FormEvent } from "react";
-import { useMutation, useQuery } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { useNavigate, Link } from "react-router-dom";
 import { LOGIN_USER } from "../graphql/mutations/User";
-import { CHECK_IF_ADMIN } from "../graphql/queries/User";
 
 const Login: React.FC = () => {
     const [email, setEmail] = useState<string>("");
@@ -41,7 +40,7 @@ const Login: React.FC = () => {
 
   
     return (
-            <div className="flex flex-col items-center h-full bg-[] py-16 px-4 sm:px-6 lg:px-8">
+            <div className="flex flex-col items-center h-screen bg-[] py-16 px-4 sm:px-6 lg:px-8">
               <div className="max-w-md w-full">
                 <div>
                   <h2 className="mt-6 text-center text-3xl leading-9 font-bold text-gray-900">
@@ -58,7 +57,7 @@ const Login: React.FC = () => {
                         required
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:shadow-outline-blue focus:border-[#CB3737] focus:z-10 sm:text-sm sm:leading-5"
+                        className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:shadow-outline-blue focus:border-black focus:z-10 sm:text-sm sm:leading-5"
                         placeholder="Email address"
                       />
                     </div>
@@ -70,7 +69,7 @@ const Login: React.FC = () => {
                         required
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:shadow-outline-blue focus:border-[#CB3737] focus:z-10 sm:text-sm sm:leading-5"
+                        className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:shadow-outline-blue focus:border-black focus:z-10 sm:text-sm sm:leading-5"
                         placeholder="Password"
                       />
                     </div>
@@ -88,7 +87,7 @@ const Login: React.FC = () => {
                   </div>
         
                   <div className="mt-6">
-                    <button type="submit" className="group relative w-full flex justify-center py-2 px-4 text-sm leading-5 font-medium text-blue-500 border-2 rounded-full border-blue-500 hover:shadow-2xl">
+                    <button type="submit" className="group relative w-full flex justify-center py-2 px-4 text-sm leading-5 font-medium text-black border-2 rounded-full border-black hover:shadow-2xl">
                       Sign in
                     </button>
                   </div>

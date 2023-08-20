@@ -16,14 +16,13 @@ function invariant(value: unknown): asserts value {
 }
 
 const ViewProduct: React.FC = () => {
-
   const [addItemToCart] = useMutation(ADD_ITEM_TO_CART);
 
-  const navigate = useNavigate()
-  const [quantity, setQuantity] = useState(1)
+  const navigate = useNavigate();
+  const [quantity, setQuantity] = useState(1);
 
   const { id } = useParams<IDParams>();
-  invariant(id)
+  invariant(id);
 
   const parsedId = parseInt(id);
 
@@ -31,52 +30,51 @@ const ViewProduct: React.FC = () => {
     variables: { id: parsedId },
   });
 
-
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
 
   const product: Product = data.getProductById;
-  const product_id = Number(product.product_id)
+  const product_id = Number(product.product_id);
 
-  
   const handleAddToCart = async () => {
-    //if user is authenticated, add to cart
-    //else, redirect to login page 
-
     const token = sessionStorage.getItem('token');
-    
 
-  if (!token) {
-    navigate("/login")  
-  }
-
-  try {
-    const { data } = await addItemToCart({
-      variables: {product_id, quantity , token },
-      refetchQueries:[{ query: VIEW_CART, variables:{ token }}]
-    });
-    if (data) {
-      console.log("Successfully added to cart")
+    if (!token) {
+      navigate('/login');
+      return;
     }
-  } 
-  catch (error) {
-    console.error("Add to cart error:", error);
-  }
-  }
+
+    try {
+      const { data } = await addItemToCart({
+        variables: { product_id, quantity, token },
+        refetchQueries: [{ query: VIEW_CART, variables: { token } }],
+      });
+
+      if (data && data.addItemToCart.product !== null) {
+        console.log('Successfully added to cart');
+      } else {
+        alert("Selected quantity exceeds available quantity")
+      }
+    } catch (error) {
+      console.error('Add to cart error:', error);
+    }
+  };
 
   return (
-    <div className="border p-4 rounded-lg shadow-md">
-      {/* <img
-        src={product.image}
-        alt={product.name}
-        className="w-full h-48 object-cover mb-2 rounded-md"
-      /> */}
-      <h1 className="text-xl font-bold text-blue-700">{product.name}</h1>
-      <p className="text-gray-700 mb-2">{product.description}</p>
-      <p className="text-gray-900 font-semibold">Price: Rs. {product.price}</p>
-      <p className="text-gray-900">Category: {product.category}</p>
-      {/* <p className="text-gray-900">Quantity: {product.quantity}</p> */}
-      <label className="block mb-2">
+    <div className="flex p-4 rounded-lg h-screen">
+      <div className="w-1/3 pr-4">
+        <img
+          src={product.image}
+          alt={product.name}
+          className=" p-10"
+        />
+      </div>
+      <div className="w-2/3 p-10">
+        <h1 className="text-xl font-bold text-blue-700">{product.name}</h1>
+        <p className="text-gray-700 mb-2">{product.description}</p>
+        <p className="text-gray-900 font-semibold">Price: Rs. {product.price}</p>
+        <p className="text-gray-900">Category: {product.category}</p>
+        <label className="block mb-2">
           Quantity:
           <input
             type="number"
@@ -86,11 +84,16 @@ const ViewProduct: React.FC = () => {
               setQuantity(parseInt(event.target.value));
             }}
             placeholder=""
-            className="block w-full mt-1 p-2 border rounded-md"
+            className="block mt-1 p-2 border rounded-md"
           />
         </label>
-
-      <button onClick={handleAddToCart}>Add to cart</button>
+        <button
+          onClick={handleAddToCart}
+          className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md"
+        >
+          Add to Cart
+        </button>
+      </div>
     </div>
   );
 };

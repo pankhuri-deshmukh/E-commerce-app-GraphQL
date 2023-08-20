@@ -81,13 +81,13 @@ const Register: React.FC = () => {
             />
           </div>
           
-          <button type="submit" className="group relative w-full flex justify-center py-2 px-4 text-sm leading-5 font-medium text-blue-500 border-2 rounded-full border-blue-500 hover:shadow-2xl">
+          <button type="submit" className="group relative w-full flex justify-center py-2 px-4 text-sm leading-5 font-medium text-black border-2 rounded-full border-black hover:shadow-2xl">
                       Register
                     </button>
                     <div className="mt-4 text-center">
                   <p className="text-sm text-gray-600">
                     Have an account?{" "}
-                    <Link to="/user" className="font-medium text-blue-500 hover:underline">
+                    <Link to="/login" className="font-medium text-blue-500 hover:underline">
                       Click to login
                     </Link>
                   </p>

@@ -14,6 +14,7 @@ export const VIEW_CART = gql`
       product {
         name
         price
+        image
       }
     }
   }

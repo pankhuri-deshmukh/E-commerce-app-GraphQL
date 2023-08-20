@@ -24,8 +24,7 @@ const ProductPage: React.FC = () => {
 
   return (
     <>
-    <h1 className="text-2xl font-semibold mb-4">All Products</h1>
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-4 gap-4">
       {allProducts.map((product) => (
         <ProductCard key={product.product_id} product={product} />
       ))}

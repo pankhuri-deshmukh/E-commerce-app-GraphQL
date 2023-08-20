@@ -1,13 +1,11 @@
 import React, { createContext, useState } from 'react';
 import { FaShoppingCart, FaUser } from 'react-icons/fa';
-import { RiHome2Line, RiAddCircleLine } from 'react-icons/ri';
+import { RiHome2Line} from 'react-icons/ri';
 import { AiOutlineClose } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 import CartSide from './CartSide';
 import UserSide from './UserSide';
 import { ContextTypeCart, ContextTypeUser } from '../interfaces/Context';
-import { useQuery } from '@apollo/client';
-import { CHECK_IF_ADMIN } from '../graphql/queries/User';
 
 export const ContextCart = createContext<ContextTypeCart>({
   viewCart: false,
@@ -24,18 +22,24 @@ const Navbar = () => {
 
   const handleClick = () => {
     setViewCart(!viewCart);
+    if(viewUser === true){
+      setViewUser(!viewUser)
+    }
   };
 
   const handleClickUser = () => {
     setViewUser(!viewUser);
+    if(viewCart === true){
+      setViewCart(!viewCart)
+    }
   };
 
   return (
-    <>
+    <div className='h-16 w-full bg-black'>
     
-    <div className="bg-blue-500 p-4 flex justify-between items-center mb-4">
+    <div className="fixed h-16 w-full bg-black p-4 flex justify-between items-center ">
       <Link to="/" className="text-white text-2xl font-bold">
-        Ecommerce Store
+        The Store.
       </Link>
 
       <div className="flex items-center space-x-4">
@@ -55,7 +59,7 @@ const Navbar = () => {
     </div>
     <div className={`bg-gray-100 w-[30%] h-full fixed top-16 right-0 transform transition-transform duration-500 shadow-xl ${viewCart ? 'translate-x-0' : 'translate-x-full'}`}>
         <div onClick={handleClick} className="flex ">
-          <AiOutlineClose size={20} className="mr-2 text-blue-500" />
+          <AiOutlineClose size={25} className="mr-2 text-black font-bold" />
         </div> 
         <ContextCart.Provider value={{ viewCart, setViewCart }}>
         <CartSide />
@@ -63,13 +67,13 @@ const Navbar = () => {
     </div>
       <div className={`bg-gray-100 w-[30%] h-full fixed top-16 right-0 transform transition-transform duration-500 shadow-xl ${viewUser ? 'translate-x-0' : 'translate-x-full'}`}>
         <div onClick={handleClickUser} className="flex ">
-          <AiOutlineClose size={20} className="mr-2 text-blue-500" />
+          <AiOutlineClose size={25} className="mr-2 text-black font-bold" />
         </div>
         <ContextUser.Provider value={{ viewUser, setViewUser }}>
         <UserSide />
         </ContextUser.Provider>
       </div>
-    </>
+    </div>
   );
 };
 

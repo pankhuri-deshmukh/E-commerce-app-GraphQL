@@ -15,6 +15,7 @@ const CartSide = () => {
   const { viewCart, setViewCart } = useContext<ContextTypeCart>(ContextCart);
   const token = sessionStorage.getItem('token');
   const [createOrderMutation] = useMutation(CREATE_ORDER);
+
   
   const { loading, error, data } = useQuery(VIEW_CART, {
     variables: { token: token },
@@ -26,19 +27,20 @@ const CartSide = () => {
     }
   }, [data]);
 
-  
-  
-
   if (!token) {
     // If no token is present, user is not logged in
     return (
-      <div>
-        <p>Please log in to view your cart</p>
-        <button onClick={() => {
-          setViewCart(!viewCart)
-          navigate('/login')
-        }
-          }>Login</button>
+      <div className="p-4 text-center">
+        <p className="mb-2">Please log in to view your cart</p>
+        <button
+          className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md"
+          onClick={() => {
+            setViewCart(!viewCart)
+            navigate('/login')
+          }}
+        >
+          Login
+        </button>
       </div>
     );
   }
@@ -58,7 +60,10 @@ const CartSide = () => {
           payment_status: 'successful', //set to 'successful' by default for now
           token: token,
         },
-        refetchQueries:[{ query: VIEW_ALL_ORDERS, variables:{ token }}, {query: VIEW_CART, variables:{ token: token }}]
+        refetchQueries: [
+          { query: VIEW_ALL_ORDERS, variables: { token } }, 
+          { query: VIEW_CART, variables: { token: token } }
+        ]
       });
 
       const newOrder = data.createOrder;
@@ -70,18 +75,40 @@ const CartSide = () => {
     }
   };
 
-  // If user is successfully logged in, show cart items and "View All Orders" button
+  if(allCartItems.length === 0) {
+    return (
+        <div className="h-screen flex flex-col justify-center items-center">
+          <p className="text-lg mb-6">Cart is empty.</p>
+          <button
+            className="bg-black text-white py-2 px-4 rounded-md"
+            onClick={() => {
+              setViewCart(!viewCart)
+              navigate('/')
+          }}
+          >
+            Browse Products
+          </button>
+        </div>
+      
+    );
+  }
+
   return (
-    <div>
-      <h1 className="text-2xl font-semibold mb-4">All Cart Items</h1>
-      <div>
-        {allCartItems.map((item) => (
-          <CartItemCard key={item.cart_item_id} item={item} />
-        ))}
-      </div>
-      <button onClick={handleCheckout}>CheckOut</button>
-      <button onClick={() => navigate('/myorders')}>View All Orders</button>
-    </div>
+    <div className="p-4 h-full">
+  <div className="mb-4" style={{ maxHeight: 'calc(100vh - 170px)', overflowY: 'auto' }}>
+    {allCartItems.map((item) => (
+      <CartItemCard key={item.cart_item_id} item={item} />
+    ))}
+  </div>
+  <div className="flex justify-center">
+    <button
+      className="bg-black text-white py-2 px-4 rounded-md mr-2"
+      onClick={handleCheckout}
+    >
+      Check Out
+    </button>
+  </div>
+</div>
   );
 };
 
