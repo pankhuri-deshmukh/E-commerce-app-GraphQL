@@ -44,7 +44,7 @@ export const CREATE_ORDER = {
     Orders.insert(newOrder)
 
     //clear cart
-    await Cart.update({ cart_id: user_id }, { total_amount: 0});
+    await Cart.update({ cart_id: user_id }, { total_amount: 0.00});
     
 
     //map cart items to order items
@@ -60,6 +60,10 @@ export const CREATE_ORDER = {
     console.log(cartItems)
 
     for (const cartItem of cartItems) {
+
+        if(!(cartItem.product.quantity >= cartItem.quantity)){
+            continue;
+        }
 
         const orderItem = OrderItem.create({
             product: cartItem.product,

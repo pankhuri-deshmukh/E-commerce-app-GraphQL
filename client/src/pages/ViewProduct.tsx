@@ -47,14 +47,15 @@ const ViewProduct: React.FC = () => {
     try {
       const { data } = await addItemToCart({
         variables: { product_id, quantity, token },
-        refetchQueries: [{ query: VIEW_CART, variables: { token } }],
+        refetchQueries: [{ query: VIEW_CART, variables: { token } }, 
+          {query: GET_PRODUCT_BY_ID, variables: { id: parsedId }}],
       });
 
-      if (data && data.addItemToCart.product !== null) {
-        console.log('Successfully added to cart');
-      } else {
-        alert("Selected quantity exceeds available quantity")
-      }
+      // if (data && data.addItemToCart.product !== null) {
+      //   console.log('Successfully added to cart');
+      // } else {
+      //   alert("Selected quantity exceeds available quantity")
+      // }
     } catch (error) {
       console.error('Add to cart error:', error);
     }
@@ -74,25 +75,36 @@ const ViewProduct: React.FC = () => {
         <p className="text-gray-700 mb-2">{product.description}</p>
         <p className="text-gray-900 font-semibold">Price: Rs. {product.price}</p>
         <p className="text-gray-900">Category: {product.category}</p>
-        <label className="block mb-2">
-          Quantity:
-          <input
-            type="number"
-            name="quantity"
-            value={quantity}
-            onChange={(event) => {
-              setQuantity(parseInt(event.target.value));
-            }}
-            placeholder=""
-            className="block mt-1 p-2 border rounded-md"
-          />
-        </label>
-        <button
-          onClick={handleAddToCart}
-          className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md"
-        >
-          Add to Cart
-        </button>
+        {product.quantity === 0 && (<p className="text-red-400">Out of Stock</p>)}
+        {product.quantity !== 0 && (
+          <div>
+          <label className="block mb-2">
+            Quantity:
+            <input
+              type="number"
+              name="quantity"
+              value={quantity}
+              onChange={(event) => {
+                const newQuantity = parseInt(event.target.value);
+                if (newQuantity >= 1 && newQuantity <= product.quantity) {
+                  setQuantity(newQuantity);
+                } else if (newQuantity > product.quantity) {
+                  setQuantity(product.quantity);
+                } }}
+              placeholder=""
+              min="1"
+              max={product.quantity}
+              className="block mt-1 p-2 border rounded-md"
+            />
+          </label>
+          <button
+            onClick={handleAddToCart}
+            className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md"
+          >
+            Add to Cart
+          </button>
+          </div>
+        )}
       </div>
     </div>
   );

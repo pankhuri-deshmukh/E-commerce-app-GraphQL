@@ -9,63 +9,99 @@ import { isAuthorized } from "../../services/authorize";
 export const ADD_ITEM_TO_CART = {
     type: CartItemType,
     args: {
-      product_id: { type: GraphQLInt },
-      quantity: { type: GraphQLInt },
-      token: { type: GraphQLString }
+        product_id: { type: GraphQLInt },
+        quantity: { type: GraphQLInt },
+        token: {type: GraphQLString }
     },
     async resolve(parent: any, args: any) {
-      const { product_id, quantity, token } = args;
-  
-      try {
-        // Authorization process
-        const user_id = await isAuthorized(token);
-        if (user_id === -1) {
-          throw new Error("Unauthorized action");
-        }
-  
-        // Authorization successful
-        const reqProduct: Products = await Products.findOneOrFail({
-          where: {
-            product_id: product_id
-          }
-        });
-  
-        const availableQuantity = reqProduct.quantity;
-        if (quantity > availableQuantity) {
-          return {
-            error: true,
-            message: "Requested quantity exceeds available quantity"
-          };
-        }
-  
+        const {product_id, quantity, token } = args;
+        console.log(args)
+        try {
+
+            //authorization process -
+            const user_id = await isAuthorized(token);
+            if(user_id === -1){
+                //authorization unsuccessful
+                throw new Error("Unauthorized action");
+            }
+
+        //authorization successful - 
+            const reqProduct : Products = await Products.findOneOrFail({where : { 
+                product_id : product_id 
+                }
+            })
+
         const itsCart = await Cart.findOneOrFail({
-          where: {
-            cart_id: user_id
-          }
-        });
-  
-        itsCart.total_amount += calcTotal(reqProduct.price, quantity);
+            where : {
+                cart_id : user_id
+            }
+        })
+
+        itsCart.total_amount += calcTotal(reqProduct.price, quantity)
         await Cart.update({ cart_id: user_id }, { total_amount: itsCart.total_amount });
-  
+
+        let initial = 0
+
+        const existingItem = await Cart_Items.findOne({
+          relations: ['cart', 'product'],
+          where: {
+            cart: {
+              cart_id: user_id
+            },
+            product: {
+              product_id: product_id
+            }
+          }
+        })
+
+        if(existingItem) {
+          //there is already such an item in the cart - update it.
+          initial = existingItem.quantity
+          if((initial + quantity) > reqProduct.quantity){
+            throw new Error("quantity exceeds available")
+            // return {
+            //   message: "quantity exceeds available"
+            // }
+          }
+
+          const newQ = existingItem.quantity + quantity
+          const newS = calcTotal(reqProduct.price, newQ)
+          const updItem = await Cart_Items.update({cart_item_id: existingItem.cart_item_id},{quantity: newQ, subtotal: newS})
+
+          return updItem
+        }
+
+        else{
+          //user_id is the same as cart_id
+        // Create the cart item entry 
+        if((initial + quantity) > reqProduct.quantity){
+          throw new Error("quantity exceeds available")
+          // return {
+          //   message: "quantity exceeds available"
+          // }
+        }
+
         const cartItem = await Cart_Items.create({
           quantity,
           subtotal: calcTotal(reqProduct.price, quantity),
           product: reqProduct,
-          cart: itsCart
-        });
-  
-        await Cart_Items.insert(cartItem);
-  
+          cart : itsCart,
+      });
+
+      await Cart_Items.insert(cartItem);
+
         return cartItem;
-      } catch {
-        return {
-          error: true,
-          message: "Unsuccessful"
-        };
-      }
+        }
+
+        }
+        catch {
+            throw new Error("Unsuccessful!")
+        }
+
+        
     }
-  };
-  
+}
+
 export const REMOVE_ITEM_FROM_CART = {
     type: CartItemType,
     args: {
