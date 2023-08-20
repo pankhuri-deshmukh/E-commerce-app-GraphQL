@@ -6,7 +6,7 @@ export class Cart extends BaseEntity {
   @PrimaryGeneratedColumn()
   cart_id!: number;
 
-  @Column()
+  @Column({type: 'decimal', precision: 10, scale: 2})
   total_amount!: number;
 
   @OneToMany(() => Cart_Items, orderItem => orderItem.cart)

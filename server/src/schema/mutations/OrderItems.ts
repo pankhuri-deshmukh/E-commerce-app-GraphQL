@@ -112,8 +112,25 @@ export const CANCEL_ORDER = {
         
     //cancel order
     const canOrder = await Orders.update({order_id : order_id},{order_status: 'cancelled'})
-    return canOrder 
 
+    //associated order items are unchanged since we still need details of cancelled orders, but
+    //associated product quantities must be updated
+    const orderItems = await OrderItem.find({ 
+        relations: ['order','product'],
+        where: {
+            order: {
+                order_id: order_id
+            }
+    }})
+
+    //console.log(orderItems)
+    for (const orderItem of orderItems) {
+
+        await Products.update({ product_id: orderItem.product.product_id }, { quantity: orderItem.product.quantity + orderItem.quantity });
+
+        
+    }
+    return canOrder
         }
         catch {
             throw new Error("Unsuccessful!")

@@ -8,6 +8,7 @@ query viewOrders($token: String!) {
     order_id
     payment_status
     total_amount
+    order_status
   }
 }
 `;

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { OrderProps } from '../interfaces/Order';
 import OrderItemCard from './OrderItemCard'; 
 import { useMutation, useQuery } from '@apollo/client'; 
-import { VIEW_ORDER_DETAILS } from '../graphql/queries/Order'; 
+import { VIEW_ALL_ORDERS, VIEW_ORDER_DETAILS } from '../graphql/queries/Order'; 
 import { useNavigate } from 'react-router-dom';
 import { CANCEL_ORDER } from '../graphql/mutations/Order';
 import { FcExpand } from 'react-icons/fc';
@@ -10,7 +10,6 @@ import { MdOutlineMinimize } from 'react-icons/md';
 
 const OrderCard: React.FC<OrderProps> = ({ order }) => {
   const [showDetails, setShowDetails] = useState(false);
-  const [isCancelled, setIsCancelled] = useState(false);
   const navigate = useNavigate()
 
   const [cancelOrder] = useMutation(CANCEL_ORDER);
@@ -34,16 +33,16 @@ const OrderCard: React.FC<OrderProps> = ({ order }) => {
   const handleCancel = async () => {
     const token = sessionStorage.getItem('token');
     if (!token) {
-      navigate("/")  
+      navigate("/login")  
     }
   
     try {
       const id = Number(order.order_id)
       const { data } = await cancelOrder({
         variables: { order_id: id, token },
+        refetchQueries: [{ query: VIEW_ALL_ORDERS, variables: { token: sessionStorage.getItem('token') || '' }, }]
       });
       if (data) {
-        setIsCancelled(true);
         console.log("Successfully cancelled")
       }
     } 
@@ -56,11 +55,11 @@ const OrderCard: React.FC<OrderProps> = ({ order }) => {
     <div className={`border p-4 rounded-md shadow-md`}>
       <div className="flex justify-between items-center mb-2">
         
-        <h3 className={`text-lg font-semibold ${isCancelled ? 'text-red-600' : ''}`}>
+        <h3 className={`text-lg font-semibold ${order.order_status === 'cancelled' ? 'text-red-600' : ''}`}>
           Order ID: {order.order_id}
         </h3>
         <div className="flex justify-between items-center mb-2">
-        {isCancelled && <span className="text-s text-red-600 mr-2">Cancelled</span>}
+        {order.order_status === 'cancelled' && <span className="text-s text-red-600 mr-2">Cancelled</span>}
         
         <button
           onClick={toggleDetails}
@@ -81,7 +80,7 @@ const OrderCard: React.FC<OrderProps> = ({ order }) => {
           </ul>
         </div>
       )}
-      {!isCancelled && (
+      {!(order.order_status === 'cancelled') && (
         <div className="flex justify-end mt-2">
           <button
             onClick={handleCancel}

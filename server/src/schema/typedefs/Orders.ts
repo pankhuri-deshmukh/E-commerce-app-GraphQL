@@ -7,6 +7,7 @@ export const OrderType = new GraphQLObjectType({
         order_id: { type: GraphQLID },
         payment_status: { type: GraphQLString },
         total_amount: { type: GraphQLFloat },
+        order_status: { type: GraphQLString },
         user : {type: UserType }
     }),
 })

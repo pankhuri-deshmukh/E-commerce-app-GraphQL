@@ -4,7 +4,7 @@ export interface Order{
     order_id: number;
     payment_status: string;
     total_amount: number;
-    //user: User??
+    order_status: string;
 }
 
 export interface OrderItem {

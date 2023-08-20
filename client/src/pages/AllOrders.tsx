@@ -44,8 +44,8 @@ const AllOrders: React.FC = () => {
   return (
     <div>
       <div className="mt-6 pl-6 pr-6 mb-6">
-        {allOrders.map((order) => (
-          <OrderCard key={order.order_id} order={order} />
+        {allOrders.map((order, index) => (
+          <OrderCard key={index} order={order} />
         ))}
       </div>
     </div>
