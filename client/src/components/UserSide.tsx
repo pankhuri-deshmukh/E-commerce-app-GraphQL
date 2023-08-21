@@ -69,7 +69,7 @@ const UserSide: React.FC = () => {
           </Link>
         )}
         </div>
-        <div onClick={() => {
+        {/* <div onClick={() => {
             setViewUser(!viewUser);
           }}>
         {isAdmin && (
@@ -86,7 +86,7 @@ const UserSide: React.FC = () => {
             <li className='border-b border-gray-300 py-2'>Delete Product</li>
           </Link>
         )}
-        </div>
+        </div> */}
         <div onClick={() => {
             setViewUser(!viewUser);
           }}>

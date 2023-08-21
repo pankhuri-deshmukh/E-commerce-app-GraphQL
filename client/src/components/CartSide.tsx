@@ -46,7 +46,7 @@ const CartSide = () => {
       <div className="p-4 text-center">
         <p className="mb-2">Please log in to view your cart</p>
         <button
-          className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md"
+          className="bg-black text-white py-2 px-4 rounded-md"
           onClick={() => {
             setViewCart(!viewCart)
             navigate('/login')

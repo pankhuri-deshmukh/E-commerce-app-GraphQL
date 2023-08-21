@@ -2,7 +2,7 @@ import React from 'react'
 
 const DeleteProduct = () => {
   return (
-    <div>DeleteProduct</div>
+    <div className='h-screen'>DeleteProduct</div>
   )
 }
 
