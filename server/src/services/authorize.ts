@@ -14,9 +14,16 @@ export const isAuthorized = async (token : string) => {
         }})
 
         if (decodedToken.email !== itsUser.email) {
-            return -1;
+            const returnObj = {
+                user_id : -1,
+                role: itsUser.role,
+            }
+            return returnObj;
         }
 
-        return user_id;
+        return {
+            user_id : user_id,
+            role: itsUser.role,
+        }
 
 }

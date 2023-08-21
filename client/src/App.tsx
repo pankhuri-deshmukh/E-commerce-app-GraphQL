@@ -10,6 +10,8 @@ import Register from './pages/Register';
 import AllOrders from './pages/AllOrders';
 import Hero from './components/Hero';
 import Footer from './components/Footer';
+import UpdateProduct from './pages/UpdateProduct';
+import DeleteProduct from './pages/DeleteProduct';
 
 
 
@@ -27,10 +29,13 @@ function App() {
     <Routes>
       <Route path='/' element={<><Hero/> <ProductPage /></>} />
       <Route path='/products/add' element={<AddProduct />} />
+      <Route path='/products/update' element={<UpdateProduct/>} />
+      <Route path='/products/delete' element={<DeleteProduct/>} />
       <Route path='/products/:id' element={<ViewProduct />} />
       <Route path='/login' element={<Login/>} />
       <Route path='/register' element={<Register/>} />
       <Route path='/myorders' element={<AllOrders/>} />
+      
     </Routes>
     <Footer />
     </div>

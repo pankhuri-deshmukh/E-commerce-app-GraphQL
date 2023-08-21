@@ -13,11 +13,13 @@ export const VIEW_CART = {
 
         try{
              //authorization process -
-        const user_id = await isAuthorized(token);
+        const obj = await isAuthorized(token);
+        const user_id = obj.user_id
         if(user_id === -1){
             //authorization unsuccessful
             throw new Error("Unauthorized action");
         }
+
     //authorization successful - 
     return Cart_Items.find({
         relations:['cart', 'product'],

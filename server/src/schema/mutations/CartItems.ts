@@ -18,14 +18,15 @@ export const ADD_ITEM_TO_CART = {
         console.log(args)
         try {
 
-            //authorization process -
-            const user_id = await isAuthorized(token);
-            if(user_id === -1){
-                //authorization unsuccessful
-                throw new Error("Unauthorized action");
-            }
+           //authorization process -
+        const obj = await isAuthorized(token);
+        const user_id = obj.user_id
+        if(user_id === -1){
+            //authorization unsuccessful
+            throw new Error("Unauthorized action");
+        }
 
-        //authorization successful - 
+    //authorization successful - 
             const reqProduct : Products = await Products.findOneOrFail({where : { 
                 product_id : product_id 
                 }
@@ -114,13 +115,14 @@ export const REMOVE_ITEM_FROM_CART = {
         try {
 
             //authorization process -
-            const user_id = await isAuthorized(token);
-            if(user_id === -1){
-                //authorization unsuccessful
-                throw new Error("Unauthorized action");
-            }
+        const obj = await isAuthorized(token);
+        const user_id = obj.user_id
+        if(user_id === -1){
+            //authorization unsuccessful
+            throw new Error("Unauthorized action");
+        }
 
-        //authorization successful - 
+    //authorization successful - 
         const item = await Cart_Items.findOneOrFail({ where : {
             cart_item_id : cart_item_id
         }})

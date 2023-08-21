@@ -15,7 +15,8 @@ export const VIEW_ALL_ORDERS = {
 
         try{
             //authorization process -
-        const user_id = await isAuthorized(token);
+        const obj = await isAuthorized(token);
+        const user_id = obj.user_id
         if(user_id === -1){
             //authorization unsuccessful
             throw new Error("Unauthorized action");
@@ -51,11 +52,12 @@ export const VIEW_ORDER_DETAILS = {
 
         try{
             //authorization process -
-            const user_id = await isAuthorized(token);
-            if(user_id === -1){
-                //authorization unsuccessful
-                throw new Error("Unauthorized action");
-            }
+        const obj = await isAuthorized(token);
+        const user_id = obj.user_id
+        if(user_id === -1){
+            //authorization unsuccessful
+            throw new Error("Unauthorized action");
+        }
 
     //authorization successful - 
     return OrderItem.find({

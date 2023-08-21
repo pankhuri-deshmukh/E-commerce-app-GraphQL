@@ -60,17 +60,41 @@ const UserSide: React.FC = () => {
           <li className='border-b border-gray-300 py-2'>Home</li>
         </Link>
         </div>
+        <div onClick={() => {
+            setViewUser(!viewUser);
+          }}>
         {isAdmin && (
           <Link to="/products/add" >
             <li className='border-b border-gray-300 py-2'>Add Product</li>
           </Link>
         )}
+        </div>
         <div onClick={() => {
             setViewUser(!viewUser);
           }}>
-        <Link to='/myorders'>
-          <li className='border-b border-gray-300 py-2'>My Orders</li>
-        </Link>
+        {isAdmin && (
+          <Link to="/products/update" >
+            <li className='border-b border-gray-300 py-2'>Update Product</li>
+          </Link>
+        )}
+        </div>
+        <div onClick={() => {
+            setViewUser(!viewUser);
+          }}>
+        {isAdmin && (
+          <Link to="/products/delete" >
+            <li className='border-b border-gray-300 py-2'>Delete Product</li>
+          </Link>
+        )}
+        </div>
+        <div onClick={() => {
+            setViewUser(!viewUser);
+          }}>
+            {!isAdmin && (
+              <Link to='/myorders'>
+              <li className='border-b border-gray-300 py-2'>My Orders</li>
+            </Link>
+            )}
         </div>
         {/* <li className='border-b border-gray-300 py-2'>Change Password</li> */}
         <li className='cursor-pointer border-b border-gray-300 py-2' onClick={handleLogout}>Logout</li>

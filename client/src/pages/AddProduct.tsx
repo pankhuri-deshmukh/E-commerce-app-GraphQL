@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { ADD_PRODUCT } from '../graphql/mutations/Product';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { GET_ALL_PRODUCTS } from '../graphql/queries/Product';
 
 const AddProduct: React.FC = () => {
   
@@ -11,6 +12,7 @@ const AddProduct: React.FC = () => {
   const [quantity, setQuantity] = useState(0)
   const [category, setCategory] = useState("")
   const [image, setImage] = useState("")
+  const navigate = useNavigate()
 
   const [addProduct, {error}] = useMutation(ADD_PRODUCT);
   //error handling needed here
@@ -120,9 +122,12 @@ const AddProduct: React.FC = () => {
               quantity: quantity,
               category: category,
               image: image,
+              token: sessionStorage.getItem('token') || ''
             },
+            refetchQueries: [{query:GET_ALL_PRODUCTS}]
           }).then(() => {
             resetForm();
+            navigate('/')
           });
         }}
           type="submit"

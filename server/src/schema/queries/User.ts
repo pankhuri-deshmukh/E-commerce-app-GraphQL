@@ -30,11 +30,12 @@ export const CHECK_IF_ADMIN = {
 
         try{
             //authorization process -
-            const user_id = await isAuthorized(token);
-            if(user_id === -1){
-                //authorization unsuccessful
-                throw new Error("Unauthorized action");
-            }
+        const obj = await isAuthorized(token);
+        const user_id = obj.user_id
+        if(user_id === -1){
+            //authorization unsuccessful
+            throw new Error("Unauthorized action");
+        }
 
     //authorization successful - 
     const reqUser = await Users.findOne({where : {

@@ -8,6 +8,7 @@ import { CREATE_ORDER } from '../graphql/mutations/Order';
 import { ContextTypeCart } from '../interfaces/Context';
 import { ContextCart } from './Navbar';
 import { VIEW_ALL_ORDERS } from '../graphql/queries/Order';
+import { CHECK_IF_ADMIN } from '../graphql/queries/User';
 
 const CartSide = () => {
   const navigate = useNavigate();
@@ -16,6 +17,10 @@ const CartSide = () => {
   const token = sessionStorage.getItem('token');
   const [createOrderMutation] = useMutation(CREATE_ORDER);
 
+  const adminData = useQuery(CHECK_IF_ADMIN, {
+    variables: { token: sessionStorage.getItem('token') || '' },
+  });
+  const isAdmin = adminData.data?.checkIfAdmin.role === 'admin';
   
   const { loading, error, data } = useQuery(VIEW_CART, {
     variables: { token: token },
@@ -26,6 +31,14 @@ const CartSide = () => {
       setAllCartItems(data.viewCart); 
     }
   }, [data]);
+
+  if(isAdmin){
+    return (
+      <div className="p-4 text-center">
+        <p className="mb-2">Cart is unavailable.</p>
+      </div>
+    )
+  }
 
   if (!token) {
     // If no token is present, user is not logged in

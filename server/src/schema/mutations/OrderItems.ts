@@ -19,12 +19,14 @@ export const CREATE_ORDER = {
 
         try {
            //authorization process -
-           const user_id = await isAuthorized(token);
-           if(user_id === -1){
-               //authorization unsuccessful
-               throw new Error("Unauthorized action");
-           }
-        //authorization successful - 
+        const obj = await isAuthorized(token);
+        const user_id = obj.user_id
+        if(user_id === -1){
+            //authorization unsuccessful
+            throw new Error("Unauthorized action");
+        }
+
+    //authorization successful -  
         const userCart : Cart = await Cart.findOneOrFail({where : { 
             cart_id : user_id 
         }
@@ -107,12 +109,14 @@ export const CANCEL_ORDER = {
 
         try {
            //authorization process -
-           const user_id = await isAuthorized(token);
-           if(user_id === -1){
-               //authorization unsuccessful
-               throw new Error("Unauthorized action");
-           }
-        //authorization successful - 
+        const obj = await isAuthorized(token);
+        const user_id = obj.user_id
+        if(user_id === -1){
+            //authorization unsuccessful
+            throw new Error("Unauthorized action");
+        }
+
+    //authorization successful - 
         
     //cancel order
     const canOrder = await Orders.update({order_id : order_id},{order_status: 'cancelled'})

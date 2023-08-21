@@ -8,6 +8,7 @@ export const ADD_PRODUCT = gql`
     $category: String!
     $quantity: Int!
     $image: String!
+    $token: String!
   ) {
     addProduct(
       name: $name
@@ -16,6 +17,7 @@ export const ADD_PRODUCT = gql`
       category: $category
       quantity: $quantity
       image: $image
+      token: $token
     ) {
       name
       price
