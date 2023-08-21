@@ -1,4 +1,3 @@
-//GET_USER_ORDERS
 import { GraphQLInt, GraphQLList, GraphQLString } from "graphql";
 import { OrderType } from "../typedefs/Orders";
 import { Orders } from "../../entities/Orders";

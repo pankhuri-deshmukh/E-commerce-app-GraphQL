@@ -2,9 +2,6 @@ import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, BaseEnti
 import { Orders } from './Orders';
 import { Products } from './Products';
 
-//Link Product ID
-//import { Products } from './Products';
-
 @Entity()
 export class OrderItem extends BaseEntity{
   @PrimaryGeneratedColumn()

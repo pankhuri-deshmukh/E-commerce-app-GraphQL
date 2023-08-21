@@ -13,4 +13,3 @@ export const CartItemType = new GraphQLObjectType({
     })
 })
 
-//token also?

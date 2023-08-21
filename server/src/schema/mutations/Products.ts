@@ -2,6 +2,8 @@ import { GraphQLFloat, GraphQLID, GraphQLInt, GraphQLInputObjectType, GraphQLStr
 import { ProductType, UpdateProductInputType } from "../typedefs/Products";
 import { Products } from '../../entities/Products'
 
+//Modifications needed
+
 export const ADD_PRODUCT = {
     //ADMIN FUNCTION ONLY
     type: ProductType,

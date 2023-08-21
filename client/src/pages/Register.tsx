@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useMutation } from "@apollo/client";
-import { ADD_USER } from "../graphql/mutations/User"; // Import your GraphQL mutation
+import { ADD_USER } from "../graphql/mutations/User";
 import { Link, useNavigate } from "react-router-dom";
 
 const Register: React.FC = () => {
@@ -22,7 +22,7 @@ const Register: React.FC = () => {
       });
 
       const user = data.addUser;
-      //store the user's generated token
+      //store the generated token
       const token = user.token
       sessionStorage.setItem("token", token);
 

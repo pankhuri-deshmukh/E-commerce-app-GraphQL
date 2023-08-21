@@ -5,7 +5,7 @@ import { isAuthorized } from '../../services/authorize';
 
 export const GET_USER_BY_ID = {
     //MODIFICATION PENDING
-    //what use does this even have in the application? - in password reset
+    // for use in password reset
     type: UserType,
     args: {
         id : {type: GraphQLInt},

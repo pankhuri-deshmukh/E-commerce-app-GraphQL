@@ -1,6 +1,6 @@
 import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
-import { Users } from './Users'; // Import the User entity
-import { Products } from './Products'; // Import the Product entity
+import { Users } from './Users'; 
+import { Products } from './Products'; 
 
 @Entity()
 export class Review extends BaseEntity {

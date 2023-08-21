@@ -51,6 +51,9 @@ const ViewProduct: React.FC = () => {
           {query: GET_PRODUCT_BY_ID, variables: { id: parsedId }}],
       });
 
+      //error handling required
+      console.log(data)
+
       // if (data && data.addItemToCart.product !== null) {
       //   console.log('Successfully added to cart');
       // } else {

@@ -6,7 +6,7 @@ const OrderItemCard: React.FC<OrderItemProps> = ({ item }) => {
     <div className="flex border p-4 mb-4 rounded-md shadow-md" key={item.item_id}>
       <div className="flex-shrink-0 w-16 h-16 mr-4">
         <img
-          src={item.product.image} // Replace with actual image URL
+          src={item.product.image}
           alt={item.product.name}
           className="w-full h-full object-cover rounded-md"
         />
