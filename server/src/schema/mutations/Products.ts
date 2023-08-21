@@ -31,7 +31,7 @@ export const ADD_PRODUCT = {
         }
 
     //authorization successful - 
-    if(obj.role === 'admin')
+    if(obj.role === 'admin' && name && price && quantity)
     await Products.insert({name, description, price, category, quantity, image})
 
     return args
