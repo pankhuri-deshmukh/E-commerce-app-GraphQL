@@ -7,6 +7,7 @@ import { VIEW_CART } from "./queries/Cart";
 import { CANCEL_ORDER, CREATE_ORDER } from "./mutations/OrderItems";
 import { VIEW_ALL_ORDERS, VIEW_ORDER_DETAILS } from "./queries/Orders";
 import { CHECK_IF_ADMIN, GET_USER_BY_ID } from "./queries/User";
+import { VIEW_REVIEWS } from "./queries/Reviews";
 
 
 const RootQuery = new GraphQLObjectType({
@@ -18,7 +19,8 @@ const RootQuery = new GraphQLObjectType({
         viewCart : VIEW_CART,
         viewOrders : VIEW_ALL_ORDERS,
         viewOrderDetails : VIEW_ORDER_DETAILS,
-        checkIfAdmin : CHECK_IF_ADMIN
+        checkIfAdmin : CHECK_IF_ADMIN,
+        viewReviews : VIEW_REVIEWS,
     }
 })
 
